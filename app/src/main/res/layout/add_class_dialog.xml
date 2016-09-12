@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="5dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/nameField"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/class_name_field_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/profField"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/class_prof_field_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/locaField"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/class_loca_field_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/sunday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="U"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/monday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/tuesday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="T"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/wednesday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="W"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/thursday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="R"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/friday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="F"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/saturday"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/timeFromField"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/class_time_from_field_hint"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/timeToField"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/class_time_to_field_hint"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/submitClassButton"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_marginBottom="16dp"
+        android:text="@string/submit"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

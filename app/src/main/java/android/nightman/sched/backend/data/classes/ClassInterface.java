@@ -2,10 +2,10 @@ package android.nightman.sched.backend.data.classes;
 
 import android.nightman.sched.backend.models.Class;
 import android.nightman.sched.backend.models.ClassHolder;
+import android.nightman.sched.backend.models.Response;
 
 import java.util.List;
 
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -20,11 +20,11 @@ import rx.Observable;
 public interface ClassInterface {
     // Add a new class
     @POST("api/users/{user_id}/classes")
-    Response createClass(@Header("Authorization") String auth, @Body Class clazz);
+    Observable<Response> createClass(@Header("Authorization") String auth, @Path("user_id") int user_id, @Body Class clazz);
 
     // Remove a class
     @DELETE("api/users/{user_id}/{class_id}")
-    Response deleteClass(@Header("Authorization") String auth, @Path("user_id")int user_id, @Path("class_id") int class_id);
+    Observable<Response> deleteClass(@Header("Authorization") String auth, @Path("user_id")int user_id, @Path("class_id") int class_id);
 
     // Get a list of the user's classes
     @GET("api/users/{user_id}/classes")
