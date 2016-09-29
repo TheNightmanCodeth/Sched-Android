@@ -1,10 +1,11 @@
 package android.nightman.sched.backend.data.assignments;
 
 import android.nightman.sched.backend.models.Assignment;
+import android.nightman.sched.backend.models.Response;
 
 import java.util.List;
 
-import retrofit2.Response;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -18,7 +19,7 @@ import rx.Observable;
 public interface AssignmentInterface {
     // Add a new assignment
     @POST("api/users/{user_id}/{class_id}/assignments")
-    Observable<Response> addAssignment(@Header("Authorization") String auth, @Path("user_id") String user_id, @Path("class_id") String class_id);
+    Observable<Response> createAssignment(@Header("Authorization") String auth, @Path("user_id") int user_id, @Path("class_id") int class_id, @Body Assignment assignment);
 
     // Remove an assignment
     @DELETE("api/users/{user_id}/{class_id}/{assignment_id}")

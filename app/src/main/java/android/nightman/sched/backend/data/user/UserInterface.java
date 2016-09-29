@@ -1,6 +1,5 @@
 package android.nightman.sched.backend.data.user;
 
-import android.database.Observable;
 import android.nightman.sched.backend.models.AuthToken;
 import android.nightman.sched.backend.models.User;
 
@@ -9,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import rx.Observable;
 
 /**
  * Created by joe on 9/11/16.
