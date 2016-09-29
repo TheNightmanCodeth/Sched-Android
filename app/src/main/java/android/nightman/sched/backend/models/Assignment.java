@@ -10,20 +10,20 @@ public class Assignment {
     }
 
     private int id;
-    private int assignmentType;
-    private String description;
+    private int asstype;
+    private String desc;
     private String due;
-    private int class_id;
+    private int classs_id;
 
     public Assignment() {
     }
 
     public Assignment(int id, int assignmentType, String description, String due, int class_id) {
         this.id = id;
-        this.assignmentType = assignmentType;
-        this.description = description;
+        this.asstype = assignmentType;
+        this.desc = description;
         this.due = due;
-        this.class_id = class_id;
+        this.classs_id = class_id;
     }
 
     public int getId() {
@@ -34,20 +34,20 @@ public class Assignment {
         this.id = id;
     }
 
-    public int getAssignmentType() {
-        return assignmentType;
+    public int getAsstype() {
+        return asstype;
     }
 
-    public void setAssignmentType(int assignmentType) {
-        this.assignmentType = assignmentType;
+    public void setAsstype(int asstype) {
+        this.asstype = asstype;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getDue() {
@@ -58,11 +58,11 @@ public class Assignment {
         this.due = due;
     }
 
-    public int getClass_id() {
-        return class_id;
+    public int getClasss_id() {
+        return classs_id;
     }
 
-    public void setClass_id(int class_id) {
-        this.class_id = class_id;
+    public void setClasss_id(int classs_id) {
+        this.classs_id = classs_id;
     }
 }

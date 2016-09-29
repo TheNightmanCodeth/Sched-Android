@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/classRec"
+        android:id="@+id/assRec"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </android.support.design.widget.CoordinatorLayout>

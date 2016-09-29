@@ -1,4 +1,4 @@
-package android.nightman.sched.views.util;
+package android.nightman.sched.views.classview;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -16,7 +16,6 @@ import java.util.List;
  * Created by joe on 9/11/16.
  */
 public class ClassRecyclerViewAdapter extends RecyclerView.Adapter<ClassRecyclerViewHolder>{
-
     private List<Class> classes;
     private List<Drawable> badges = new ArrayList<>(); //0: Beaker, 1: Globe,
 

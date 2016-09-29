@@ -24,7 +24,7 @@ public interface AssignmentInterface {
     @DELETE("api/users/{user_id}/{class_id}/{assignment_id}")
     Observable<Response> deleteAssignment(@Header("Authorization") String auth, @Path("user_id") String user_id, @Path("class_id") String class_id, @Path("assignment_id") String ass_id);
 
-    // Get a list of the user's assignments
+    // Get a list of the class' assignments
     @GET("api/users/{user_id}/{class_id}/assignments")
     Observable<List<Assignment>> getAssignments(@Header("Authorization") String auth, @Path("user_id") String user_id, @Path("class_id") String class_id);
 

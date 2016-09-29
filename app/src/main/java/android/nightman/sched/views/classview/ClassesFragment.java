@@ -7,10 +7,10 @@ import android.nightman.sched.backend.data.classes.ClassInterface;
 import android.nightman.sched.backend.models.Class;
 import android.nightman.sched.backend.models.ClassHolder;
 import android.nightman.sched.backend.models.Response;
-import android.nightman.sched.views.util.ClassRecyclerViewAdapter;
+import android.nightman.sched.views.MainTabActivity;
+import android.nightman.sched.views.util.RxBus;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +28,9 @@ import android.widget.EditText;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,13 +40,30 @@ public class ClassesFragment extends Fragment {
     ClassRecyclerViewAdapter adapter;
     RecyclerView classesRV;
 
-    public ClassesFragment() {
-        // Required empty public constructor
-    }
+    private RxBus _rxBus;
+    private CompositeSubscription _subscriptions;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        _subscriptions = new CompositeSubscription();
+        refresh();
+        _subscriptions
+                .add(_rxBus.toObservable()
+                    .subscribe(new Action1<Object>() {
+                        @Override
+                        public void call(Object o) {
+                            String title = (String) o;
+                            if (o.equals("Classes")) {
+                                addClass();
+                            }
+                        }
+                    }));
     }
 
     @Override
@@ -55,20 +74,12 @@ public class ClassesFragment extends Fragment {
         sched = new Sched();
         //UI
         classesRV = (RecyclerView)rootView.findViewById(R.id.classRec);
-        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.classFAB);
         //Populate rv
         refresh();
-        //Assign FAB onClick action
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addClass();
-            }
-        });
         return rootView;
     }
 
-    private void addClass() {
+    public void addClass() {
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.add_class_dialog);
         dialog.setTitle("Add Class...");
@@ -133,7 +144,6 @@ public class ClassesFragment extends Fragment {
 
         return days;
     }
-
     private void refresh() {
         //Populate RecyclerView
         ClassInterface classAPI = sched.getClassAPI();
@@ -158,5 +168,11 @@ public class ClassesFragment extends Fragment {
                         classesRV.setLayoutManager(new LinearLayoutManager(getContext()));
                     }
                 });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        _rxBus = ((MainTabActivity) getActivity()).getRxBusSingleton();
     }
 }

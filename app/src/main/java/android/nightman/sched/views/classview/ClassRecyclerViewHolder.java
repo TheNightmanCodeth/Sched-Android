@@ -1,4 +1,4 @@
-package android.nightman.sched.views.util;
+package android.nightman.sched.views.classview;
 
 import android.nightman.sched.R;
 import android.support.v7.widget.RecyclerView;
