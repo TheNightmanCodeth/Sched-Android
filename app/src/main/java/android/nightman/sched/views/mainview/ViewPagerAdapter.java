@@ -1,4 +1,4 @@
-package android.nightman.sched.views.util;
+package android.nightman.sched.views.mainview;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

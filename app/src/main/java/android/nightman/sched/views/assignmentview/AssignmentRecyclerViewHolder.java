@@ -5,17 +5,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by joe on 9/22/16.
  */
 
 public class AssignmentRecyclerViewHolder extends RecyclerView.ViewHolder{
-    TextView title;
-    TextView descr;
-
+    //Header
+    CircleImageView badge;
+    TextView className;
+    //List
+    RecyclerView assignmentList;
+    //Footer
     AssignmentRecyclerViewHolder(View itemView) {
         super(itemView);
-        title = (TextView) itemView.findViewById(R.id.title);
-        descr = (TextView) itemView.findViewById(R.id.desc);
+        badge = (CircleImageView) itemView.findViewById(R.id.assignment_card_header_badge);
+        className = (TextView)itemView.findViewById(R.id.assignment_card_header_title);
+        assignmentList = (RecyclerView) itemView.findViewById(R.id.assignment_card_list);
     }
 }

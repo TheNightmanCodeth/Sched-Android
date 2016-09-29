@@ -6,15 +6,15 @@ import android.nightman.sched.backend.data.classes.ClassInterface;
 import android.nightman.sched.backend.models.Assignment;
 import android.nightman.sched.backend.models.Class;
 import android.nightman.sched.backend.models.ClassHolder;
-import android.nightman.sched.views.MainTabActivity;
+import android.nightman.sched.views.mainview.MainTabActivity;
 import android.nightman.sched.views.util.RxBus;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +32,6 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AssignmentFragment extends Fragment {
     Sched sched;
     AssignmentRecyclerViewAdapter adapter;
@@ -75,29 +72,28 @@ public class AssignmentFragment extends Fragment {
         sched = new Sched();
         //UI
         classesRV = (RecyclerView)rootView.findViewById(R.id.assRec);
-        //Set up listener for FAB
-        listener = new OnRefreshFinished() {
+        //Refresh drag listener
+        SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.assignment_swipe_refresh);
+        //TODO: getColor is deprecated
+        refreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorAccent2), getResources().getColor(R.color.colorAccent3));
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onFinish(ClassHolder classHolder) {
-                List<Assignment> assignments = new ArrayList<>();
-                for (int i = 0; i < classHolder.getClasses().size(); i++) {
-                    Class current = classHolder.getClasses().get(i);
-                    for (int v = 0; v < current.getAssignments().size(); v++) {
-                        assignments.add(current.getAssignments().get(v));
+            public void onRefresh() {
+                refresh(new OnRefreshFinished() {
+                    @Override
+                    public void onFinish() {
+                        refreshLayout.setRefreshing(false);
                     }
-                }
-                adapter = new AssignmentRecyclerViewAdapter(assignments);
-                classesRV.setAdapter(adapter);
-                classesRV.setLayoutManager(new LinearLayoutManager(getContext()));
+                });
             }
-        };
+        });
         //Populate rv
-        refresh(listener);
+        refresh(null);
         return rootView;
     }
 
     private interface OnRefreshFinished {
-        void onFinish(ClassHolder classHolder);
+        void onFinish();
     }
     private void refresh(OnRefreshFinished listener) {
         //Populate RecyclerView
@@ -108,7 +104,9 @@ public class AssignmentFragment extends Fragment {
                 .subscribe(new Subscriber<ClassHolder>() {
                     @Override
                     public void onCompleted() {
-
+                        if (listener != null) {
+                            listener.onFinish();
+                        }
                     }
 
                     @Override
@@ -118,7 +116,15 @@ public class AssignmentFragment extends Fragment {
 
                     @Override
                     public void onNext(ClassHolder classHolder) {
-                        listener.onFinish(classHolder);
+                        List<Class> classesWithAssignments = new ArrayList<Class>();
+                        for (Class a : classHolder.getClasses()) {
+                            if (a.getAssignments().size() > 0) {
+                                classesWithAssignments.add(a);
+                            }
+                        }
+                        adapter = new AssignmentRecyclerViewAdapter(classesWithAssignments, getContext());
+                        classesRV.setAdapter(adapter);
+                        classesRV.setLayoutManager(new LinearLayoutManager(getContext()));
                     }
                 });
     }

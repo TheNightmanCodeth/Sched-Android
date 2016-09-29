@@ -7,11 +7,12 @@ import android.nightman.sched.backend.data.classes.ClassInterface;
 import android.nightman.sched.backend.models.Class;
 import android.nightman.sched.backend.models.ClassHolder;
 import android.nightman.sched.backend.models.Response;
-import android.nightman.sched.views.MainTabActivity;
+import android.nightman.sched.views.mainview.MainTabActivity;
 import android.nightman.sched.views.util.RxBus;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -32,13 +33,11 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ClassesFragment extends Fragment {
     Sched sched;
     ClassRecyclerViewAdapter adapter;
     RecyclerView classesRV;
+    SwipeRefreshLayout classesRVSwipeRefreshLayout;
 
     private RxBus _rxBus;
     private CompositeSubscription _subscriptions;
@@ -52,7 +51,7 @@ public class ClassesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         _subscriptions = new CompositeSubscription();
-        refresh();
+        refresh(null);
         _subscriptions
                 .add(_rxBus.toObservable()
                     .subscribe(new Action1<Object>() {
@@ -74,8 +73,19 @@ public class ClassesFragment extends Fragment {
         sched = new Sched();
         //UI
         classesRV = (RecyclerView)rootView.findViewById(R.id.classRec);
-        //Populate rv
-        refresh();
+        classesRVSwipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.class_swipe_refresh);
+        classesRVSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorAccent2), getResources().getColor(R.color.colorAccent3));
+        classesRVSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh(new OnRefreshFinished() {
+                    @Override
+                    public void onFinish() {
+                        classesRVSwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
         return rootView;
     }
 
@@ -101,7 +111,7 @@ public class ClassesFragment extends Fragment {
                         .subscribe(new Subscriber<Response>() {
                             @Override
                             public void onCompleted() {
-
+                                dialog.dismiss();
                             }
 
                             @Override
@@ -111,9 +121,7 @@ public class ClassesFragment extends Fragment {
 
                             @Override
                             public void onNext(Response response) {
-                                Log.i("CLASSES_FRAGMENT", response.getResponse());
-                                refresh();
-                                dialog.dismiss();
+                                refresh(null);
                             }
                         });
             }
@@ -144,7 +152,11 @@ public class ClassesFragment extends Fragment {
 
         return days;
     }
-    private void refresh() {
+
+    private interface OnRefreshFinished {
+        void onFinish();
+    }
+    private void refresh(OnRefreshFinished listener) {
         //Populate RecyclerView
         ClassInterface classAPI = sched.getClassAPI();
         Observable<ClassHolder> classes = classAPI.getClasses("Basic " +Base64.encodeToString("joyod3@gmail.com:nightman_420".getBytes(), Base64.NO_WRAP), 1);
@@ -153,7 +165,9 @@ public class ClassesFragment extends Fragment {
                 .subscribe(new Subscriber<ClassHolder>() {
                     @Override
                     public void onCompleted() {
-
+                        if (listener != null) {
+                            listener.onFinish();
+                        }
                     }
 
                     @Override
